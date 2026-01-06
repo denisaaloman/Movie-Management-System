@@ -1,0 +1,14 @@
+Titanic | Adventure | 1997 | https://www.youtube.com/watch?v=LuPB43YSgCs | 73
+The Godfather | Crime | 1972 | https://www.youtube.com/watch?v=sY1S34973zA | 34
+Casablanca | Drama | 1942 | https://www.youtube.com/watch?v=BkL9l7qovsE | 23
+The Shawshank Redemption | Drama | 1994 | https://www.youtube.com/watch?v=6hB3S9bIaco | 38
+The Lord of the Rings: The Fellowship of the Ring | Adventure | 2001 | https://www.youtube.com/watch?v=V75dMMIW2B4 | 100
+Pulp Fiction | Crime | 1994 | https://www.youtube.com/watch?v=s7EdQ4FqbhY | 70
+La La Land | Drama | 2016 | https://www.youtube.com/watch?v=0pdqf4P9MB8 | 43
+The Lord of the Rings: The Two Towers | Adventure | 2002 | https://www.youtube.com/watch?v=LbfMDwc4azU | 37
+Inception | Action | 2010 | https://www.youtube.com/watch?v=YoHD9XEInc0 | 22
+Forrest Gump | Drama | 1994 | https://www.youtube.com/watch?v=bLvqoHBptjg | 32
+Capra cu trei iezi | Thriller | 2022 | https://www.youtube.com/results?search_query=capra+cu+trei+iezi+trailer | 75
+Avatar: The Way of Water | Action | 2022 | https://www.youtube.com/watch?v=d9MyW72ELq0&pp=ygUOYXZhdGFyIHRyYWlsZXI%3D | 201
+Fight Club | Drama | 1999 | https://www.youtube.com/watch?v=SUXWAEX2jlg | 50
+Gone with the Wind | Drama | 1939 | https://www.youtube.com/watch?v=0X94oZgJis4 | 20
