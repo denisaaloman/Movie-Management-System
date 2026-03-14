@@ -104,7 +104,7 @@ void test_repository() {
     repo.removeMovieByPosition(0);
     assert(repo.getMoviesCount() == 0);
 
-    // 6️⃣ Test updateMovie
+    //Test updateMovie
     repo.addMovie(m1);
     repo.addMovie(m2);
     Movie mUpdated("Inception Updated", "Sci-Fi", "https://youtu.be/updated", 2010, 6000);
@@ -173,7 +173,6 @@ void test_action() {
     assert(repo.getMoviesCount() == 1);
     assert(repo.getMovieByPosition(0) == m2);
 
-    // -------------------------
     // Test UpdateAction
     Movie m2Updated("Interstellar Updated", "Sci-Fi", "link2", 2014, 9000);
     UpdateAction updateAction(&repo, m2Updated, m2, 0);
@@ -195,7 +194,7 @@ void test_file_repository() {
 
     FileRepository fileRepo(testFile);
 
-    // 1️⃣ Test adding movies
+    // Test adding movies
     Movie m1("Inception", "Sci-Fi", "link1", 2010, 5000);
     Movie m2("Interstellar", "Sci-Fi", "link2", 2014, 8000);
 
@@ -226,7 +225,7 @@ void test_file_repository() {
     fileRepo.updateMovie(0, m1Updated);
     assert(fileRepo.getMovieByPosition(0).getTitle() == "Inception Updated");
 
-    // 6️⃣ Test loadMoviesIntoRepository
+    // Test loadMoviesIntoRepository
     // Save manually to file
     std::ofstream ofs2(testFile);
     ofs2 << "Movie1|Genre1|2001|link1|100\n";
@@ -239,7 +238,7 @@ void test_file_repository() {
     assert(fileRepo2.getMovieByPosition(0).getTitle() == "Movie1");
     assert(fileRepo2.getMovieByPosition(1).getTitle() == "Movie2");
 
-    // 7️⃣ Test exception on invalid file
+    // Test exception on invalid file
     bool exceptionCaught = false;
     try {
         FileRepository invalidRepo("non_existent_file.txt");
