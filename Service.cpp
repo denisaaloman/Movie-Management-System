@@ -19,10 +19,14 @@ bool Service::compareStrings(const std::string& firstComparedString, const std::
 {
     if (firstComparedString.size() != secondComparedString.size())
         return false;
-    for (int index = 0; firstComparedString[index]; ++index)
-        if (tolower(firstComparedString[index]) != tolower(secondComparedString[index]))
-            return false;
-    return true;
+    return std::equal(
+        firstComparedString.begin(), firstComparedString.end(),
+        secondComparedString.begin(),
+        [](char c1, char c2)
+        {
+            return std::tolower(c1) == std::tolower(c2);
+        }
+    );
 }
 
 void Service::setAdminCredentials(bool adminCredentials)
@@ -93,11 +97,16 @@ Movie Service::getMovieByPosition(int position) const
 std::vector<Movie> Service::getMoviesByGenre(const std::string& genreOfMovie) {
     this->moviesFilteredByGenre.clear();
     this->currentIndexForMovieToBeDisplayed = 0;
-    for (const auto& movie : this->repository->getMovies()) {
-        std::string genreOfCurrentMovie = movie.getGenre();
-        if (genreOfMovie.empty() || (this->compareStrings(genreOfCurrentMovie, genreOfMovie)))
-            this->moviesFilteredByGenre.push_back(movie);
-    }
+
+    std::vector<Movie> movies = this->repository->getMovies();
+
+    std::copy_if(movies.begin(), movies.end(),
+        std::back_inserter(this->moviesFilteredByGenre),
+        [&](const Movie& movie)
+        {
+            return genreOfMovie.empty() || compareStrings(movie.getGenre(), genreOfMovie);
+        }
+    );
     return this->moviesFilteredByGenre;
 }
 std::vector<Movie> Service::getMoviesFromWatchList() const
@@ -106,13 +115,11 @@ std::vector<Movie> Service::getMoviesFromWatchList() const
 }
 
 void Service::openTrailerOfMovieInBrowser(int positionOfMovieInTheDynamicArray)
-{
-    Movie movieWhoseTrailerWillBeDisplayedInTheBrowser = this->getMovieByPosition(positionOfMovieInTheDynamicArray);
+{   Movie movieWhoseTrailerWillBeDisplayedInTheBrowser = this->getMovieByPosition(positionOfMovieInTheDynamicArray);
     movieWhoseTrailerWillBeDisplayedInTheBrowser.openTrailerInBrowser();
 }
-
 void Service::addMovieToWatchList(Movie movieToAddToWatchList)
-{
+{ 
     this->watchList->addMovie(movieToAddToWatchList);
 }
 
@@ -128,15 +135,9 @@ void Service::setTypeOfWatchList(FileWatchList* watchList)
 }
 
 
-void Service::displayPlaylist()
-{
-    this->watchList->openInApp();
-}
+void Service::displayPlaylist(){ this->watchList->openInApp(); }
 
-void Service::checkIfMovieIsAlreadyInThePlaylist(const Movie& movie)
-{
-    this->watchList->checkIfMovieIsAlreadyInThePlaylist(movie);
-}
+void Service::checkIfMovieIsAlreadyInThePlaylist(const Movie& movie){ this->watchList->checkIfMovieIsAlreadyInThePlaylist(movie); }
 
 void Service::setTypeOfRepository(Repository* repository)
 {
@@ -149,25 +150,32 @@ void Service::clearFile(const std::string& fileName)
     std::ofstream file(fileName);
     file.close();
 }
-void Service::incrementIndexOfCurrentMovieToBeDisplayed() {
-    this->currentIndexForMovieToBeDisplayed++;
-}
+void Service::incrementIndexOfCurrentMovieToBeDisplayed() { this->currentIndexForMovieToBeDisplayed++; }
 void Service::openTrailerOfCurrentMovieInBrowser() const {
     Movie currentMovie = this->moviesFilteredByGenre[this->currentIndexForMovieToBeDisplayed];
     currentMovie.openTrailerInBrowser();
 }
-
 void Service::removeWatchedMovieFromWatchList(int positionOfMovie, bool likedMovie) {
     Movie currentMovieInWatchList = this->watchList->getMovieByPosition(positionOfMovie);
     if (likedMovie)
+    {
+        std::vector<Movie> movies = this->repository->getMovies();
+
+        auto it = std::find(movies.begin(),movies.end(),currentMovieInWatchList);
+
+        if (it != movies.end())
+        {
+            this->increaseLikesCountOfMovie(*it);
+        }
+    }
+        /*
         for (auto movie : this->repository->getMovies())
             if (movie == currentMovieInWatchList) {
                 this->increaseLikesCountOfMovie(movie);
                 break;
-            }
+            }*/
     this->watchList->removeMovieFromPlaylist(positionOfMovie, likedMovie);
 }
-
 void Service::addCurrentMovieToWatchList() {
     this->addMovieToWatchList(this->moviesFilteredByGenre[this->currentIndexForMovieToBeDisplayed]);
 }
@@ -178,8 +186,6 @@ Movie Service::getCurrentMovieToBeDisplayed() {
     this->openTrailerOfCurrentMovieInBrowser();
     return this->moviesFilteredByGenre[this->currentIndexForMovieToBeDisplayed];
 }
-
-
 
 bool Service::undo() {
     if (this->action_undo.size() == 0) {
